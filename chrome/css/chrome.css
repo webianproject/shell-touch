@@ -13,6 +13,21 @@ html, body {
   flex: 1;
 }
 
+#status-bar {
+  height: 24px;
+  background-color: #000;
+  margin: 0;
+  padding: 0 5px;
+  color: #fff;
+  text-align: right;
+}
+
+#clock {
+  line-height: 24px;
+  font-size: 13px;
+  font-family: 'Fira Sans', sans-serif;
+}
+
 #system-toolbar {
   height: 32px;
   background-color: #000;

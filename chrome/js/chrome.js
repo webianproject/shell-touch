@@ -12,6 +12,7 @@ const Chrome = {
    */
   start: async function() {
     console.log('Starting chrome...');
+    this.clock = document.getElementById('clock');
     this.webview = document.getElementById('webview');
     this.homeButton = document.getElementById('home-button');
     this.homeButton.addEventListener('click',
@@ -19,6 +20,10 @@ const Chrome = {
 
     // Navigate to home page
     this.navigate(this.HOME_PAGE);
+
+    // Set the clock going
+    this.updateClock();
+    window.setInterval(this.updateClock.bind(this), 1000);
 
     // Uncomment the following two lines to open developer tools for webview
     //this.webview.addEventListener('dom-ready',
@@ -39,7 +44,24 @@ const Chrome = {
    */
   handleHomeButtonClick: function() {
     this.navigate(this.HOME_PAGE);
-  }
+  },
+
+    /**
+   * Update Clock.
+   */
+    updateClock: function() {
+      var date = new Date(),
+      hours = date.getHours() + '', // get hours as string
+      minutes = date.getMinutes() + ''; // get minutes as string
+  
+      // pad with zero if needed
+      if (hours.length < 2)
+        hours = '0' + hours;
+      if (minutes.length < 2)
+        minutes = '0' + minutes;
+  
+      this.clock.textContent = hours + ':' + minutes;
+    }
 }
 
 /**
