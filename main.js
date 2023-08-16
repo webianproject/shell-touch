@@ -17,7 +17,7 @@
       }
     });
 
-      // Load system chrome into main window
+    // Load system chrome into main window
     console.log('Starting system chrome...');
     mainWindow.loadURL('file://' + path.join(__dirname, 'chrome/index.html'));
 
