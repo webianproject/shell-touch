@@ -55,10 +55,11 @@ html, body {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 16px;
+  opacity: 0.9;
 }
 
 #system-toolbar button:active {
-  opacity: 0.5;
+  opacity: 1;
 }
 
 #home-button {
@@ -67,4 +68,8 @@ html, body {
 
 #back-button {
   background-image: url("../images/back.svg");
+}
+
+#reload-button {
+  background-image: url("../images/reload.svg");
 }

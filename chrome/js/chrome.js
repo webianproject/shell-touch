@@ -14,13 +14,16 @@ const Chrome = {
     console.log('Starting chrome...');
     this.clock = document.getElementById('clock');
     this.webview = document.getElementById('webview');
-    this.homeButton = document.getElementById('home-button');
     this.backButton = document.getElementById('back-button');
+    this.homeButton = document.getElementById('home-button');
+    this.reloadButton = document.getElementById('reload-button');
 
+    this.backButton.addEventListener('click', 
+      this.handleBackButtonClick.bind(this));   
     this.homeButton.addEventListener('click',
       this.handleHomeButtonClick.bind(this));
-    this.backButton.addEventListener('click', 
-      this.handleBackButtonClick.bind(this));
+    this.reloadButton.addEventListener('click', 
+      this.handleReloadButtonClick.bind(this));
 
     // Navigate to home page
     this.navigate(this.HOME_PAGE);
@@ -44,6 +47,13 @@ const Chrome = {
   },
 
   /**
+   * Handle a click on the back button.
+   */
+  handleBackButtonClick: function() {
+    this.webview.goBack();
+  },
+
+  /**
    * Handle a click on the home button.
    */
   handleHomeButtonClick: function() {
@@ -51,10 +61,10 @@ const Chrome = {
   },
 
   /**
-   * Handle a click on the back button.
+   * Handle a click on the reload button.
    */
-  handleBackButtonClick: function() {
-    this.webview.goBack();
+  handleReloadButtonClick: function() {
+    this.webview.reload();
   },
 
   /**
