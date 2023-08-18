@@ -41,6 +41,21 @@ $ npm start
 
 The shell should start up full screen.
 
+## Packaging
+
+### Package snap for current architecture
+
+Make sure you have [snapcraft](https://snapcraft.io/snapcraft) installed.
+
+```
+$ snapcraft
+```
+
+### Package snap for other architectures
+```
+$ snapcraft remote-build
+```
+
 ## License
 
 Webian Shell is free software: you can redistribute it and/or modify
