@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Snap packages and logs
+*.snap
+*_amd64*.txt
+*_arm64*.txt
+*_armhf*.txt
