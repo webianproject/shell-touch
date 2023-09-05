@@ -110,6 +110,12 @@ $ snap install ubuntu-frame avahi
 $ snap install --dangerous webian-shell-touch_0.0.1_armhf.snap
 ```
 
+- Run the snap:
+
+```
+$ sudo webian-shell-touch
+```
+
 The application should then start up full screen and load a https://webian.org if accessible.
 
 ## License
