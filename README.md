@@ -101,7 +101,7 @@ $ ssh joebloggs@192.168.1.123
 - Install the ubuntu-frame and avahi snaps on the device to enable access to the display and mDNS lookups:
 
 ```
-$ snap install ubuntu-frame avahi
+$ snap install ubuntu-frame ubuntu-frame-osk avahi
 ```
 
 - Install the webian-shell-touch snap:
