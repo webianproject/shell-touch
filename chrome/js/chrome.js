@@ -13,58 +13,72 @@ const Chrome = {
   start: async function() {
     console.log('Starting chrome...');
     this.clock = document.getElementById('clock');
-    this.webview = document.getElementById('webview');
     this.backButton = document.getElementById('back-button');
     this.homeButton = document.getElementById('home-button');
-    this.reloadButton = document.getElementById('reload-button');
+    this.windowsMenuItem = document.getElementById('windows-menu-item');
+    this.windowsButton = document.getElementById('windows-button');
+    this.newWindowMenuItem = document.getElementById('new-window-menu-item');
+    this.newWindowButton = document.getElementById('new-window-button');
 
     this.backButton.addEventListener('click', 
       this.handleBackButtonClick.bind(this));   
     this.homeButton.addEventListener('click',
       this.handleHomeButtonClick.bind(this));
-    this.reloadButton.addEventListener('click', 
-      this.handleReloadButtonClick.bind(this));
-
-    // Navigate to home page
-    this.navigate(this.HOME_PAGE);
+    this.windowsButton.addEventListener('click',
+      this.handleWindowsButtonClick.bind(this));
+    this.newWindowButton.addEventListener('click',
+      this.handleNewWindowButtonClick.bind(this));
 
     // Set the clock going
     this.updateClock();
     window.setInterval(this.updateClock.bind(this), 1000);
 
-    // Uncomment the following two lines to open developer tools for webview
-    //this.webview.addEventListener('dom-ready',
-    //  e => { this.webview.openDevTools(); });
-  },
+    Windows.start();
+    WindowSwitcher.start();
+    Homescreen.start();
 
-  /**
-   * Navigate to the given URL.
-   * 
-   * @param {string} url URL to navigate to.
-   */
-  navigate: function(url) {
-    this.webview.src = url;
+    // Show home page.
+    Homescreen.goHome();
+    Homescreen.show();
+
+    // Uncomment the following two lines to open developer tools for webview
+    //this.homescreenWebview.addEventListener('dom-ready',
+    //  e => { this.homescreenWebview.openDevTools(); });
   },
 
   /**
    * Handle a click on the back button.
    */
   handleBackButtonClick: function() {
-    this.webview.goBack();
+    Homescreen.goBack();
   },
 
   /**
    * Handle a click on the home button.
    */
   handleHomeButtonClick: function() {
-    this.navigate(this.HOME_PAGE);
+    Windows.hide();
+    WindowSwitcher.hide();
+    Homescreen.show();
+    Homescreen.goHome();
+    this.newWindowMenuItem.classList.add('hidden');
+    this.windowsMenuItem.classList.remove('hidden');
   },
 
-  /**
-   * Handle a click on the reload button.
-   */
-  handleReloadButtonClick: function() {
-    this.webview.reload();
+  handleWindowsButtonClick: function() {
+    Homescreen.hide();
+    Windows.hide();
+    WindowSwitcher.show();
+    this.windowsMenuItem.classList.add('hidden');
+    this.newWindowMenuItem.classList.remove('hidden');
+  },
+
+  handleNewWindowButtonClick: function() {
+    Windows.openNewWindow();
+    WindowSwitcher.hide();
+    Windows.show();
+    this.newWindowMenuItem.classList.add('hidden');
+    this.windowsMenuItem.classList.remove('hidden');
   },
 
   /**

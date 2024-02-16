@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333333 4.2333333"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1"
+     transform="translate(-51.858328,-32.808075)">
+    <g
+       id="rect85150-9-9-8" />
+    <g
+       id="g2"
+       transform="matrix(0.93734754,0,0,0.93734754,3.2964722,2.0556434)"
+       style="stroke-width:1.06684">
+      <path
+         style="color:#000000;fill:#ffffff;stroke-width:1.06684;-inkscape-stroke:none"
+         d="m 53.580078,33.509766 c -0.531501,0 -0.984375,0.452882 -0.984375,0.984375 v 1.845703 c 0,0.531501 0.452882,0.984375 0.984375,0.984375 h 1.708984 c 0.531502,0 0.984376,-0.452882 0.984375,-0.984375 v -1.845703 c 10e-7,-0.531501 -0.452881,-0.984375 -0.984375,-0.984375 z"
+         id="path2" />
+      <path
+         id="path85152-1-3-1"
+         d="m 52.729592,32.807929 c -0.470552,0 -0.871263,0.399338 -0.871263,0.868068 v 1.890821 c 0,0.316446 0.182924,0.60076 0.446388,0.752395 -0.02743,-0.0849 -0.0425,-0.174224 -0.0425,-0.265296 v -1.990266 c 0,-0.474052 0.400144,-0.901497 0.899135,-0.901497 h 1.784016 c 0.09076,0 0.178064,0.01454 0.26048,0.04057 -0.158141,-0.23537 -0.427071,-0.394794 -0.724173,-0.394794 z"
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.50312;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+    </g>
+  </g>
+</svg>

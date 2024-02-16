@@ -72,7 +72,7 @@ $ sudo snap install frame-it --classic
 - Install the self-built Webian Shell Touch snap locally:
 
 ```
-$ sudo snap install --dangerous webian-shell-touch_0.0.1_amd64.snap
+$ sudo snap install --dangerous webian-shell-touch_0.1.0_amd64.snap
 ```
 
 - Configure the snap (needed to connect plugs whilst in development):
@@ -94,7 +94,7 @@ To install a self-built snap package on Ubuntu Core:
 - Copy the built .snap package to the Raspberry Pi then SSH into it, using the IP address displayed on the screen and the username you assigned to your Ubuntu SSO account e.g.
 
 ```
-$ scp webian-shell-touch_0.0.1_armhf.snap joebloggs@192.168.1.123:~/
+$ scp webian-shell-touch_0.1.0_armhf.snap joebloggs@192.168.1.123:~/
 $ ssh joebloggs@192.168.1.123
 ```
 
@@ -107,7 +107,7 @@ $ snap install ubuntu-frame ubuntu-frame-osk avahi
 - Install the webian-shell-touch snap:
 
 ```
-$ snap install --dangerous webian-shell-touch_0.0.1_armhf.snap
+$ snap install --dangerous webian-shell-touch_0.1.0_armhf.snap
 ```
 
 - Run the snap:

@@ -1,0 +1,12 @@
+#windows-view {
+  flex: 1;
+}
+
+#windows-view.hidden {
+  display: none;
+}
+
+#windows {
+  width: 100%;
+  height: 100%;
+}

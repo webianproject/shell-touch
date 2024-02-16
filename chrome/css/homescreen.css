@@ -1,0 +1,15 @@
+#homescreen-view {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
+}
+
+#homescreen-view.hidden {
+  display: none;
+}
+
+#homescreen-webview {
+  width: 100%;
+  flex: 1;
+}

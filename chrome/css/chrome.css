@@ -6,11 +6,7 @@ html, body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-}
-
-#webview {
-  width: 100%;
-  flex: 1;
+  font-family: 'Fira Sans', sans-serif;
 }
 
 #status-bar {
@@ -58,6 +54,10 @@ html, body {
   opacity: 0.9;
 }
 
+#system-toolbar li.hidden {
+  display: none;
+}
+
 #system-toolbar button:active {
   opacity: 1;
 }
@@ -70,6 +70,10 @@ html, body {
   background-image: url("../images/back.svg");
 }
 
-#reload-button {
-  background-image: url("../images/reload.svg");
+#windows-button {
+  background-image: url("../images/windows.svg");
+}
+
+#new-window-button {
+  background-image: url("../images/add.svg");
 }
