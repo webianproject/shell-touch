@@ -4,18 +4,34 @@
     <meta charset="utf-8">
     <title>Webian Shell Touch</title>
     <link rel="stylesheet" href="css/fonts.css" type="text/css" />
+    <link rel="stylesheet" href="css/homescreen.css" type="text/css" />
+    <link rel="stylesheet" href="css/windows.css" type="text/css" />
+    <link rel="stylesheet" href="css/window-switcher.css" type="text/css" />
     <link rel="stylesheet" href="css/chrome.css" type="text/css" />
+    <script type="text/javascript" src="js/components/browser-window.js"></script>
+    <script type="text/javascript" src="js/homescreen.js"></script>
+    <script type="text/javascript" src="js/windows.js"></script>
+    <script type="text/javascript" src="js/window-switcher.js"></script>
     <script type="text/javascript" src="js/chrome.js"></script>
   </head>
   <body>
     <menu id="status-bar">
       <span id="clock"></span>
     </menu>
-    <webview id="webview"></webview>
+    <section id="homescreen-view" >
+      <webview id="homescreen-webview"></webview>
+    </section>
+    <section id="window-switcher-view" class="hidden">
+      <p id="thumbnail-placeholder">Click &quot;+&quot; to open a new window</p>
+    </section>
+    <section id="windows-view" class="hidden">
+      <div id="windows"></div>
+    </section>
     <menu id="system-toolbar">
       <li><button id="back-button"></button></li>
       <li><button id="home-button"></button></li>
-      <li><button id="reload-button"></button></li>
+      <li id="windows-menu-item"><button id="windows-button"></button></li>
+      <li id="new-window-menu-item" class="hidden"><button id="new-window-button"></button></li>
     </menu>
   </body>
 </html>
