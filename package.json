@@ -1,6 +1,6 @@
 {
   "name": "webian-shell-touch",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A graphical shell for the web",
   "main": "main.js",
   "scripts": {
