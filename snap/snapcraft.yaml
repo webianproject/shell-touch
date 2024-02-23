@@ -1,5 +1,5 @@
 name: webian-shell-touch 
-version: 0.1.0
+version: 0.0.1
 summary: Webian Shell Touch
 description: A graphical shell for the web
 confinement: strict
