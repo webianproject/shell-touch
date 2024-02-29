@@ -29,18 +29,16 @@ const Chrome = {
     this.newWindowButton.addEventListener('click',
       this.handleNewWindowButtonClick.bind(this));
 
+    window.addEventListener('_windowselected',
+      this.handleWindowSelected.bind(this))
+
     // Set the clock going
     this.updateClock();
     window.setInterval(this.updateClock.bind(this), 1000);
 
-    Windows.start();
-    WindowSwitcher.start();
     Homescreen.start();
-
-    // Show home page.
-    Homescreen.goHome();
-    Homescreen.show();
-
+    Windows.start();
+    
     // Uncomment the following two lines to open developer tools for webview
     //this.homescreenWebview.addEventListener('dom-ready',
     //  e => { this.homescreenWebview.openDevTools(); });
@@ -50,33 +48,40 @@ const Chrome = {
    * Handle a click on the back button.
    */
   handleBackButtonClick: function() {
-    Homescreen.goBack();
+    window.dispatchEvent(new CustomEvent('_backbuttonclicked'));
   },
 
   /**
    * Handle a click on the home button.
    */
   handleHomeButtonClick: function() {
-    Windows.hide();
-    WindowSwitcher.hide();
-    Homescreen.show();
-    Homescreen.goHome();
+    window.dispatchEvent(new CustomEvent('_homebuttonclicked'));
     this.newWindowMenuItem.classList.add('hidden');
     this.windowsMenuItem.classList.remove('hidden');
   },
 
+  /**
+   * Handle a click on the windows button.
+   */
   handleWindowsButtonClick: function() {
-    Homescreen.hide();
-    Windows.hide();
-    WindowSwitcher.show();
+    window.dispatchEvent(new CustomEvent('_windowsbuttonclicked'));
     this.windowsMenuItem.classList.add('hidden');
     this.newWindowMenuItem.classList.remove('hidden');
   },
 
+  /**
+   * Handle a click on the new window button.
+   */
   handleNewWindowButtonClick: function() {
-    Windows.openNewWindow();
-    WindowSwitcher.hide();
-    Windows.show();
+    window.dispatchEvent(new CustomEvent('_newwindowbuttonclicked'));
+    this.newWindowMenuItem.classList.add('hidden');
+    this.windowsMenuItem.classList.remove('hidden');
+  },
+
+  /**
+   * Handle a window being selected.
+   */
+  handleWindowSelected: function() {
     this.newWindowMenuItem.classList.add('hidden');
     this.windowsMenuItem.classList.remove('hidden');
   },
