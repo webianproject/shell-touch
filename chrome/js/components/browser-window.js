@@ -1,7 +1,7 @@
 /**
  * Browser Window.
  * 
- * A web componenet representing a window with a URL bar.
+ * A web component representing a window with a URL bar.
  */
 class BrowserWindow extends HTMLElement {
   
@@ -19,8 +19,6 @@ class BrowserWindow extends HTMLElement {
         :host {
           display: flex;
           flex-direction: column;
-          width: 100%;
-          height: 100%;
         }
 
         :host(.hidden) {
@@ -70,6 +68,16 @@ class BrowserWindow extends HTMLElement {
     `;
 
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.webview = this.shadowRoot.querySelector('webview');
+  }
+
+  /**
+   * Get the URL of the currently loaded web page.
+   * 
+   * @returns {String} The URL of the currently loaded web page.
+   */
+  getURL() {
+    return this.webview.getURL();
   }
 
   /**
