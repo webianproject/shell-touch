@@ -22,8 +22,10 @@ const Windows = {
     window.addEventListener('_newwindowbuttonclicked', 
       this.handleNewWindowButtonClicked.bind(this));
 
-      this.windowPreviewsElement.addEventListener('click', 
-        this.handleWindowPreviewClicked.bind(this));
+    this.windowPreviewsElement.addEventListener('click', 
+      this.handleWindowPreviewClicked.bind(this));
+    this.windowPreviewsElement.addEventListener('_closewindowbuttonclicked', 
+      this.handleCloseWindowButtonClicked.bind(this));
 
     // The collection of open windows
     this.windows = new Map();
@@ -63,7 +65,7 @@ const Windows = {
     this.windows.forEach((value, key, map) => {
       const url = new URL(value.element.getURL());
       const hostname = url.hostname;
-      const newWindowPreview = this.windowPreviewsElement.appendChild(new WindowPreview(hostname));
+      const newWindowPreview = this.windowPreviewsElement.appendChild(new WindowPreview(key, hostname));
       newWindowPreview.dataset.windowId = key;
 
       // Store the window preview element in a map of window previews
@@ -80,7 +82,7 @@ const Windows = {
       let x = this.windowPreviews.get(this.currentWindowId).element.getBoundingClientRect().x;
       this.windowPreviewsElement.scrollTo(x, 0);
     }
-  },
+    },
 
   /**
    * Hide the window switcher and show windows.
@@ -99,20 +101,16 @@ const Windows = {
   },
 
   /**
-   * Handle a click on the new window button.
+   * Handle a click on the new window button. 
    */
   handleNewWindowButtonClicked: function() {
     const newWindowId = uuidv4();
     const newWindow = this.windowsElement.appendChild(new BrowserWindow());
     newWindow.id = newWindowId;
-    if (this.currentWindowId) {
-      this.windows.get(this.currentWindowId).element.classList.add('hidden');
-    }
     this.windows.set(newWindowId, {
       element: newWindow
     });
-    this.currentWindowId = newWindowId;
-    this.hideWindowSwitcher();
+    this.selectWindow(newWindowId);
   },
 
 
@@ -130,15 +128,46 @@ const Windows = {
   },
 
   /**
+   * Handle a close window button click from a window preview.
+   * 
+   * @param {Event} event The _closewindowbuttonclicked event. 
+   */
+  handleCloseWindowButtonClicked: function(event) {
+    this.closeWindow(event.detail.windowId);
+  },
+
+  /**
    * Select a window.
    * 
    * @param {String} id The UUID of the window to select.
    */
   selectWindow: function(id) {
-    this.windows.get(this.currentWindowId).element.classList.add('hidden');
+    if (this.currentWindowId) {
+      this.windows.get(this.currentWindowId).element.classList.add('hidden');
+    }
     this.windows.get(id).element.classList.remove('hidden');
     this.currentWindowId = id;
     this.hideWindowSwitcher();
     window.dispatchEvent(new CustomEvent('_windowselected'));
+  },
+
+  /**
+   * Close a window. 
+   * 
+   * @param {String} id The ID of the window to close. 
+   */
+  closeWindow: function(id) {
+    // Destroy the specified window
+    let windowToRemove = document.getElementById(id);
+    windowToRemove.remove();
+    this.windows.delete(id);
+    this.windowPreviews.delete(id);
+    this.currentWindowId = null;
+
+    // If no more windows then show placeholder
+    if (this.windows.size === 0) {
+      this.windowPreviewsElement.classList.add('hidden');
+      this.windowPreviewPlaceholder.classList.remove('hidden');
+    }
   }
 }
