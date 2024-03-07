@@ -17,6 +17,8 @@ const Windows = {
     this.windowPreviewsElement = document.getElementById('window-previews');
     this.windowPreviewPlaceholder = document.getElementById('window-preview-placeholder');
 
+    window.addEventListener('_backbuttonclicked',
+      this.handleBackButtonClicked.bind(this));
     window.addEventListener('_windowsbuttonclicked', 
       this.handleWindowsButtonClicked.bind(this));
     window.addEventListener('_newwindowbuttonclicked', 
@@ -90,6 +92,20 @@ const Windows = {
   hideWindowSwitcher: function() {
     this.windowSwitcher.classList.add('hidden');
     this.windowsElement.classList.remove('hidden');
+  },
+
+  /**
+   * Handle a click on the system back button.
+   */
+  handleBackButtonClicked: function() {
+    // If the user is on the homescreen or no windows are open, ignore.
+    if(document.body.classList.contains('home') || !this.currentWindowId) {
+      return;
+    }
+
+    // Otherwise navigate the current window back
+    let currentWindow = this.windows.get(this.currentWindowId);
+    currentWindow.element.goBack();
   },
 
   /**
