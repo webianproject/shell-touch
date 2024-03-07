@@ -93,6 +93,13 @@ class BrowserWindow extends HTMLElement {
   disconnectedCallback() {
 
   }
+
+  /**
+   * Navigate the window back to the previous URL.
+   */
+  goBack() {
+    this.webview.goBack();
+  }
 }
 
 // Register custom element
