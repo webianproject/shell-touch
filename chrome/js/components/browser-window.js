@@ -54,6 +54,11 @@ class BrowserWindow extends HTMLElement {
           color: #ccc;
         }
 
+        .url-bar-input:focus {
+          background-color: #fff;
+          color: #000;
+        }
+
         webview {
           width: 100%;
           flex: 1;
@@ -61,7 +66,7 @@ class BrowserWindow extends HTMLElement {
       </style>
       <menu class="browser-toolbar">
         <form class="url-bar">
-          <input type="text" class="url-bar-input" value="google.com" disabled>
+          <input type="text" class="url-bar-input">
         </form>
       </menu>
       <webview class="browser-window-webview" src="https://google.com"></webview>
@@ -69,6 +74,7 @@ class BrowserWindow extends HTMLElement {
 
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.webview = this.shadowRoot.querySelector('webview');
+    this.urlBarInput = this.shadowRoot.querySelector('.url-bar-input');
   }
 
   /**
@@ -84,7 +90,14 @@ class BrowserWindow extends HTMLElement {
    * Add event listeners when element appended into document.
    */
   connectedCallback() {
-
+    this.webview.addEventListener('did-navigate',
+      this.handleLocationChange.bind(this));
+    this.webview.addEventListener('did-navigate-in-page',
+      this.handleInPageLocationChange.bind(this));
+    this.urlBarInput.addEventListener('focus',
+      this.handleUrlBarFocus.bind(this));
+    this.urlBarInput.addEventListener('blur',
+      this.handleUrlBarBlur.bind(this));
   }
 
   /**
@@ -99,6 +112,59 @@ class BrowserWindow extends HTMLElement {
    */
   goBack() {
     this.webview.goBack();
+  }
+
+  /**
+   * Handle a navigation to a new page.
+   * 
+   * @param {Event} event The did-navigate event. 
+   */
+  handleLocationChange(event) {
+    this.currentUrl = event.url;
+    let hostname;
+    try {
+      hostname = new URL(event.url).hostname;
+    } catch (error) {
+      hostname = '';
+    }
+    this.urlBarInput.value = hostname;
+    this.urlBarInput.blur();
+  }
+
+  /**
+   * Handle an in-page navigation.
+   * 
+   * @param {Event} event event The did-navigate-in-page event.
+   */
+  handleInPageLocationChange(event) {
+    // Can assume hostname won't change
+    this.currentUrl = event.url;
+    this.urlBarInput.blur();
+  }
+
+  /**
+   * Handle the URL bar being focused.
+   * 
+   * Show full URL and select all.
+   */
+  handleUrlBarFocus() {
+    this.urlBarInput.value = this.currentUrl;
+    this.urlBarInput.select();
+  }
+
+  /**
+   * Handle the URL bar losing focus.
+   * 
+   * Show hostname.
+   */
+  handleUrlBarBlur() {
+    let hostname;
+    try {
+      hostname = new URL(this.currentUrl).hostname;
+    } catch (error) {
+      hostname = '';
+    }
+    this.urlBarInput.value = hostname;
   }
 }
 
