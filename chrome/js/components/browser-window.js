@@ -45,18 +45,37 @@ class BrowserWindow extends HTMLElement {
           border-radius: 5px;
         }
 
+        .url-bar.focused {
+          background-color: #fff;
+        }
+
         .url-bar-input {
           flex: 1;
           border: none;
           border-radius: 5px;
           padding: 0 10px;
-          background-color: #3a3a3a;
+          background-color: transparent;
           color: #ccc;
         }
 
         .url-bar-input:focus {
-          background-color: #fff;
           color: #000;
+          outline: none;
+        }
+
+        .go-button {
+          width: 32px;
+          height: 32px;
+          background-color: transparent;
+          border: none;
+          background-image: url('./images/go.svg');
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
+        .go-button:active {
+          background-color: rgba(0, 0, 0, 0.15);
+          border-radius: 5px;
         }
 
         webview {
@@ -67,6 +86,7 @@ class BrowserWindow extends HTMLElement {
       <menu class="browser-toolbar">
         <form class="url-bar">
           <input type="text" class="url-bar-input">
+          <input type="submit" value="" class="go-button">
         </form>
       </menu>
       <webview class="browser-window-webview" src="https://google.com"></webview>
@@ -74,6 +94,7 @@ class BrowserWindow extends HTMLElement {
 
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.webview = this.shadowRoot.querySelector('webview');
+    this.urlBar = this.shadowRoot.querySelector('.url-bar');
     this.urlBarInput = this.shadowRoot.querySelector('.url-bar-input');
   }
 
@@ -98,6 +119,8 @@ class BrowserWindow extends HTMLElement {
       this.handleUrlBarFocus.bind(this));
     this.urlBarInput.addEventListener('blur',
       this.handleUrlBarBlur.bind(this));
+    this.urlBar.addEventListener('submit',
+      this.handleUrlBarSubmit.bind(this));
   }
 
   /**
@@ -148,6 +171,7 @@ class BrowserWindow extends HTMLElement {
    * Show full URL and select all.
    */
   handleUrlBarFocus() {
+    this.urlBar.classList.add('focused');
     this.urlBarInput.value = this.currentUrl;
     this.urlBarInput.select();
   }
@@ -158,6 +182,7 @@ class BrowserWindow extends HTMLElement {
    * Show hostname.
    */
   handleUrlBarBlur() {
+    this.urlBar.classList.remove('focused');
     let hostname;
     try {
       hostname = new URL(this.currentUrl).hostname;
@@ -165,6 +190,34 @@ class BrowserWindow extends HTMLElement {
       hostname = '';
     }
     this.urlBarInput.value = hostname;
+  }
+
+  /**
+   * Handle the submission of the URL bar.
+   * 
+   * @param {Event} event The submit event.
+   * @returns null.
+   */
+  handleUrlBarSubmit(event) {
+    event.preventDefault();
+    let urlInput = this.urlBarInput.value;
+    let url;
+    // Check for a valid URL
+    try {
+      url = new URL(urlInput).href;
+    } catch {
+      try {
+        url = new URL('http://' + urlInput).href;
+      } catch {
+        return;
+      }
+    }
+    // Manually set URL bar (navigation may not succeed or may redirect)
+    this.currentUrl = url;
+    // Navigate
+    this.webview.loadURL(url);
+    // Unfocus the URL bar
+    this.urlBarInput.blur();
   }
 }
 
