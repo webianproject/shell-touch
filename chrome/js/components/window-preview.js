@@ -9,8 +9,9 @@ class WindowPreview extends HTMLElement {
    * Constructor.
    * 
    * @param {String} title A title to show in the title bar.
+   * @param {String} iconUrl The URL of a favicon URL to show in the title bar.
    */
-  constructor(windowId, title) {
+  constructor(windowId, title, iconUrl) {
     super();
 
     // The ID of the window of which this is a preview
@@ -37,13 +38,19 @@ class WindowPreview extends HTMLElement {
           margin: 0;
         }
 
+        .favicon {
+          width: 16px;
+          height: 16px;
+          padding: 12px;
+        }
+
         .title-bar h1 {
           flex: 1;
           font-size: 12px;
           color: #fff;
           line-height: 40px;
           margin: 0;
-          padding: 0 0 0 16px;
+          padding: 0;
           font-weight: normal;
           white-space: nowrap;
           overflow: hidden;
@@ -72,6 +79,7 @@ class WindowPreview extends HTMLElement {
         }
       </style>
       <menu class="title-bar">
+        <img src="${iconUrl}" class="favicon" />
         <h1 class="title-bar-heading">${title}</h1>
         <button class="close-button">
       </menu>
@@ -82,6 +90,7 @@ class WindowPreview extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     this.closeButton = this.shadowRoot.querySelector('.close-button');
+    this.favicon = this.shadowRoot.querySelector('.favicon');
   }
 
   /**
