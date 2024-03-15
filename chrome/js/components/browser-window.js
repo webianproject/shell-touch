@@ -141,6 +141,15 @@ class BrowserWindow extends HTMLElement {
   }
 
   /**
+   * Get the title of the currently loaded web page.
+   * 
+   * @returns {String} The title of the currently loaded web page.
+   */
+  getTitle() {
+    return this.webview.getTitle();
+  }
+
+  /**
    * Add event listeners when element appended into document.
    */
   connectedCallback() {

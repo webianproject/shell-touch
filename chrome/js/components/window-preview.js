@@ -24,6 +24,7 @@ class WindowPreview extends HTMLElement {
         :host {
           display: flex;
           flex-direction: column;
+          overflow: hidden;
         }
 
         .title-bar {
@@ -44,6 +45,9 @@ class WindowPreview extends HTMLElement {
           margin: 0;
           padding: 0 0 0 16px;
           font-weight: normal;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .close-button {

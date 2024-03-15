@@ -65,9 +65,8 @@ const Windows = {
     }
     this.windowPreviewPlaceholder.classList.add('hidden');
     this.windows.forEach((value, key, map) => {
-      const url = new URL(value.element.getURL());
-      const hostname = url.hostname;
-      const newWindowPreview = this.windowPreviewsElement.appendChild(new WindowPreview(key, hostname));
+      const title = value.element.getTitle();
+      const newWindowPreview = this.windowPreviewsElement.appendChild(new WindowPreview(key, title));
       newWindowPreview.dataset.windowId = key;
 
       // Store the window preview element in a map of window previews
