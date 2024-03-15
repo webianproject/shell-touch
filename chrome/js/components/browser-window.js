@@ -64,6 +64,7 @@ class BrowserWindow extends HTMLElement {
         }
 
         .go-button {
+          display: none;
           width: 32px;
           height: 32px;
           background-color: transparent;
@@ -73,9 +74,28 @@ class BrowserWindow extends HTMLElement {
           background-repeat: no-repeat;
         }
 
-        .go-button:active {
+        .go-button:active, .reload-button:active {
           background-color: rgba(0, 0, 0, 0.15);
           border-radius: 5px;
+        }
+
+        .url-bar.focused .go-button {
+          display: block;
+        }
+
+        .reload-button {
+          display: block;
+          width: 32px;
+          height: 32px;
+          background-color: transparent;
+          border: none;
+          background-image: url('./images/reload.svg');
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
+        .url-bar.focused .reload-button {
+          display: none;
         }
 
         webview {
@@ -87,6 +107,7 @@ class BrowserWindow extends HTMLElement {
         <form class="url-bar">
           <input type="text" class="url-bar-input">
           <input type="submit" value="" class="go-button">
+          <input type="button" class="reload-button">
         </form>
       </menu>
       <webview class="browser-window-webview" src="https://google.com"></webview>
@@ -96,6 +117,7 @@ class BrowserWindow extends HTMLElement {
     this.webview = this.shadowRoot.querySelector('webview');
     this.urlBar = this.shadowRoot.querySelector('.url-bar');
     this.urlBarInput = this.shadowRoot.querySelector('.url-bar-input');
+    this.reloadButton = this.shadowRoot.querySelector('.reload-button');
   }
 
   /**
@@ -121,6 +143,8 @@ class BrowserWindow extends HTMLElement {
       this.handleUrlBarBlur.bind(this));
     this.urlBar.addEventListener('submit',
       this.handleUrlBarSubmit.bind(this));
+    this.reloadButton.addEventListener('click',
+      this.handleReloadButtonClick.bind(this));
   }
 
   /**
@@ -219,6 +243,14 @@ class BrowserWindow extends HTMLElement {
     // Unfocus the URL bar
     this.urlBarInput.blur();
   }
+
+  /**
+   * Handle a click on the reload button.
+   */
+  handleReloadButtonClick() {
+    this.webview.reload();
+  }
+
 }
 
 // Register custom element
