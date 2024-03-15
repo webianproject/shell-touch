@@ -63,38 +63,48 @@ class BrowserWindow extends HTMLElement {
           outline: none;
         }
 
-        .go-button {
-          display: none;
+        .go-button, .stop-button, .reload-button {
           width: 32px;
           height: 32px;
           background-color: transparent;
           border: none;
-          background-image: url('./images/go.svg');
           background-position: center;
           background-repeat: no-repeat;
         }
 
-        .go-button:active, .reload-button:active {
+        .go-button:active, .reload-button:active, .stop-button:active {
           background-color: rgba(0, 0, 0, 0.15);
           border-radius: 5px;
+        }
+
+        .go-button {
+          display: none;
+          background-image: url('./images/go.svg');
         }
 
         .url-bar.focused .go-button {
           display: block;
         }
 
-        .reload-button {
-          display: block;
-          width: 32px;
-          height: 32px;
-          background-color: transparent;
-          border: none;
-          background-image: url('./images/reload.svg');
-          background-position: center;
-          background-repeat: no-repeat;
+        .url-bar.focused.loading .go-button {
+          display: none;
         }
 
-        .url-bar.focused .reload-button {
+        .stop-button {
+          display: none;
+          background-image: url('./images/stop.svg');
+        }
+
+        .url-bar.loading .stop-button {
+          display: block;
+        }
+
+        .reload-button {
+          display: block;
+          background-image: url('./images/reload.svg');
+        }
+
+        .url-bar.focused .reload-button, .url-bar.loading .reload-button {
           display: none;
         }
 
@@ -107,10 +117,11 @@ class BrowserWindow extends HTMLElement {
         <form class="url-bar">
           <input type="text" class="url-bar-input">
           <input type="submit" value="" class="go-button">
-          <input type="button" class="reload-button">
+          <input type="button" value="" class="stop-button">
+          <input type="button" value="" class="reload-button">
         </form>
       </menu>
-      <webview class="browser-window-webview" src="https://google.com"></webview>
+      <webview class="browser-window-webview" src="https://duckduckgo.com/"></webview>
     `;
 
     this.shadowRoot.appendChild(template.content.cloneNode(true));
@@ -137,6 +148,10 @@ class BrowserWindow extends HTMLElement {
       this.handleLocationChange.bind(this));
     this.webview.addEventListener('did-navigate-in-page',
       this.handleInPageLocationChange.bind(this));
+    this.webview.addEventListener('did-start-loading',
+      this.handleStartLoading.bind(this));
+    this.webview.addEventListener('did-stop-loading',
+      this.handleStopLoading.bind(this));
     this.urlBarInput.addEventListener('focus',
       this.handleUrlBarFocus.bind(this));
     this.urlBarInput.addEventListener('blur',
@@ -242,6 +257,20 @@ class BrowserWindow extends HTMLElement {
     this.webview.loadURL(url);
     // Unfocus the URL bar
     this.urlBarInput.blur();
+  }
+
+  /**
+   * Handle the webview starting loading.
+   */
+   handleStartLoading() {
+    this.urlBar.classList.add('loading');
+  }
+
+  /**
+   * Handle the webview stopping loading.
+   */
+  handleStopLoading() {
+    this.urlBar.classList.remove('loading');
   }
 
   /**
