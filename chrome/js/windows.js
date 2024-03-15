@@ -66,7 +66,9 @@ const Windows = {
     this.windowPreviewPlaceholder.classList.add('hidden');
     this.windows.forEach((value, key, map) => {
       const title = value.element.getTitle();
-      const newWindowPreview = this.windowPreviewsElement.appendChild(new WindowPreview(key, title));
+      const iconUrl = value.element.getFaviconUrl();
+      const newWindowPreview = this.windowPreviewsElement.appendChild(
+        new WindowPreview(key, title, iconUrl));
       newWindowPreview.dataset.windowId = key;
 
       // Store the window preview element in a map of window previews

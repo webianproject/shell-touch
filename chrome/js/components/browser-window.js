@@ -4,6 +4,10 @@
  * A web component representing a window with a URL bar.
  */
 class BrowserWindow extends HTMLElement {
+
+  DEFAULT_FAVICON_URL = 'images/default-favicon.svg'
+
+  currentFaviconUrl = this.DEFAULT_FAVICON_URL
   
   /**
    * Constructor.
@@ -49,11 +53,17 @@ class BrowserWindow extends HTMLElement {
           background-color: #fff;
         }
 
+        .favicon {
+          width: 16px;
+          height: 16px;
+          padding: 8px;
+        }
+
         .url-bar-input {
           flex: 1;
           border: none;
           border-radius: 5px;
-          padding: 0 10px;
+          padding: 0 10px 0 0;
           background-color: transparent;
           color: #ccc;
         }
@@ -115,6 +125,7 @@ class BrowserWindow extends HTMLElement {
       </style>
       <menu class="browser-toolbar">
         <form class="url-bar">
+          <img src="${this.DEFAULT_FAVICON_URL}" class="favicon" />
           <input type="text" class="url-bar-input">
           <input type="submit" value="" class="go-button">
           <input type="button" value="" class="stop-button">
@@ -129,6 +140,7 @@ class BrowserWindow extends HTMLElement {
     this.urlBar = this.shadowRoot.querySelector('.url-bar');
     this.urlBarInput = this.shadowRoot.querySelector('.url-bar-input');
     this.reloadButton = this.shadowRoot.querySelector('.reload-button');
+    this.favicon = this.shadowRoot.querySelector('.favicon');
   }
 
   /**
@@ -136,8 +148,17 @@ class BrowserWindow extends HTMLElement {
    * 
    * @returns {String} The URL of the currently loaded web page.
    */
-  getURL() {
+  getUrl() {
     return this.webview.getURL();
+  }
+
+  /**
+   * Get the URL of the favicon of the currently loaded web page.
+   * 
+   * @returns {String} The URL of the favicon of the current page (or default).
+   */
+  getFaviconUrl() {
+    return this.currentFaviconUrl;
   }
 
   /**
@@ -153,6 +174,8 @@ class BrowserWindow extends HTMLElement {
    * Add event listeners when element appended into document.
    */
   connectedCallback() {
+    this.webview.addEventListener('will-navigate',
+      this.handleLocationChange.bind(this));
     this.webview.addEventListener('did-navigate',
       this.handleLocationChange.bind(this));
     this.webview.addEventListener('did-navigate-in-page',
@@ -161,6 +184,8 @@ class BrowserWindow extends HTMLElement {
       this.handleStartLoading.bind(this));
     this.webview.addEventListener('did-stop-loading',
       this.handleStopLoading.bind(this));
+    this.webview.addEventListener('page-favicon-updated',
+      this.handleFaviconUpdated.bind(this));
     this.urlBarInput.addEventListener('focus',
       this.handleUrlBarFocus.bind(this));
     this.urlBarInput.addEventListener('blur',
@@ -188,17 +213,30 @@ class BrowserWindow extends HTMLElement {
   /**
    * Handle a navigation to a new page.
    * 
-   * @param {Event} event The did-navigate event. 
+   * @param {Event} event The will-navigate or did-navigate event. 
    */
   handleLocationChange(event) {
-    this.currentUrl = event.url;
-    let hostname;
+    // Compare old hostname with new hostname
+    let oldHostname;
     try {
-      hostname = new URL(event.url).hostname;
+      oldHostname = new URL(this.currentUrl).hostname;
     } catch (error) {
-      hostname = '';
+      oldHostname = '';
     }
-    this.urlBarInput.value = hostname;
+    let newHostname;
+    try {
+      newHostname = new URL(event.url).hostname;
+    } catch (error) {
+      newHostname = '';
+    }
+    this.currentUrl = event.url;
+    // If switching to another host, reset the favicon so that the old favicon
+    // doesn't get displayed for the new host
+    if (newHostname !== oldHostname) {
+      this.currentFaviconUrl = this.DEFAULT_FAVICON_URL;
+      this.favicon.src = this.currentFaviconUrl;
+    }
+    this.urlBarInput.value = newHostname;
     this.urlBarInput.blur();
   }
 
@@ -280,6 +318,18 @@ class BrowserWindow extends HTMLElement {
    */
   handleStopLoading() {
     this.urlBar.classList.remove('loading');
+  }
+
+  /**
+   * Handle an update of the page's favicon.
+   * 
+   * @param {Event} event The page-favicon-updated event. 
+   */
+  handleFaviconUpdated(event) {
+    // Get the last icon in the array
+    let iconUrl = event.favicons.slice(-1) || this.DEFAULT_FAVICON_URL;
+    this.currentFaviconUrl = iconUrl;
+    this.favicon.src = iconUrl;
   }
 
   /**
